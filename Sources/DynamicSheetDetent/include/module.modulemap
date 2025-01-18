@@ -1,0 +1,12 @@
+//
+//  module.modulemap
+//  DynamicSheet
+//
+//  Created by Vlad V on 18.01.2025.
+//
+
+module DynamicSheetDetent {
+    header "DynamicSheetDetent.h"
+
+	export *
+}

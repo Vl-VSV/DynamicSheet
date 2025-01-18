@@ -1,5 +1,8 @@
 //
-//  Use this file to import your target's public headers that you would like to expose to Swift.
+//  DynamicSheetDetent.h
+//  DynamicSheet
+//
+//  Created by Vlad V on 18.01.2025.
 //
 
 #import <UIKit/UIKit.h>

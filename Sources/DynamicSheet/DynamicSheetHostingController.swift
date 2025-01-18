@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DynamicSheetDetent
 
 class DynamicSheetHostingController<Content: View>: UIHostingController<Content> {
 	private var bgColor: Color?
@@ -19,7 +20,7 @@ class DynamicSheetHostingController<Content: View>: UIHostingController<Content>
 	required dynamic init?(coder aDecoder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
-	
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		view.layer.cornerRadius = 20

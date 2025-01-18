@@ -1,12 +1,11 @@
 //
-//  DynamicSheetHelper.swift
+//  DynamicSheetHostingController.swift
 //  DynamicSheet
 //
 //  Created by Vlad V on 18.01.2025.
 //
 
 import SwiftUI
-
 struct DynamicSheetHelper<SheetView: View>: UIViewControllerRepresentable {
 	// MARK: - Dependences
 
@@ -93,7 +92,7 @@ struct DynamicSheetHelper<SheetView: View>: UIViewControllerRepresentable {
 		func getBottomSafeAreaInset() -> CGFloat {
 			UIApplication.shared.bottomSafeAreaInset == 0 ? 24 : 0
 		}
-		
+
 		/// Дополнительный паддинг сверху для устройств с TouchID, у которых нет снизу safeArea
 		func getTopPadding() -> CGFloat {
 			UIApplication.shared.bottomSafeAreaInset == 0 ? 12 : 0
