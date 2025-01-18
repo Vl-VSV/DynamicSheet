@@ -12,12 +12,18 @@ import SwiftUI
 extension View {
 	func dynamicSheet<SheetView: View>(
 		showSheet: Binding<Bool>,
+		backgroundColor: Color? = nil,
 		@ViewBuilder sheetView: @escaping () -> SheetView,
 		onDismiss: (() -> Void)? = nil
 	) -> some View {
 		return self
 			.background(
-				DynamicSheetHelper(sheetView: sheetView(), showSheet: showSheet, onDismiss: onDismiss)
+				DynamicSheetHelper(
+					sheetView: sheetView(),
+					showSheet: showSheet,
+					backgroundColor: backgroundColor,
+					onDismiss: onDismiss
+				)
 			)
 	}
 }

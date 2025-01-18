@@ -10,9 +10,11 @@ import SwiftUI
 struct DynamicSheetHelper<SheetView: View>: UIViewControllerRepresentable {
 	// MARK: - Dependences
 
-	let sheetView: SheetView
-	@Binding var showSheet: Bool
-	let onDismiss: (() -> Void)?
+	@Binding private var showSheet: Bool
+
+	private let sheetView: SheetView
+	private let backgroundColor: Color?
+	private let onDismiss: (() -> Void)?
 
 	// MARK: Private Properties
 
@@ -20,9 +22,15 @@ struct DynamicSheetHelper<SheetView: View>: UIViewControllerRepresentable {
 
 	// MARK: - Init
 
-	init(sheetView: SheetView, showSheet: Binding<Bool>, onDismiss: (() -> Void)? = nil) {
+	init(
+		sheetView: SheetView,
+		showSheet: Binding<Bool>,
+		backgroundColor: Color? = nil,
+		onDismiss: (() -> Void)? = nil
+	) {
 		self.sheetView = sheetView
 		self._showSheet = showSheet
+		self.backgroundColor = backgroundColor
 		self.onDismiss = onDismiss
 	}
 
@@ -38,8 +46,10 @@ struct DynamicSheetHelper<SheetView: View>: UIViewControllerRepresentable {
 			let sheetController = DynamicSheetHostingController(
 				rootView: sheetView
 					.environment(\.dismissDynamicSheet, { showSheet = false })
-					.padding(.bottom, context.coordinator.getBottomSafeAreaInset()) // Добавление паддинга для девайсов с TouchId
-					.padding(.top, context.coordinator.getTopPadding()) // Уменьшение паддинга для девайсов с FaceId
+					.ignoresSafeArea()
+					.padding(.bottom, context.coordinator.getBottomSafeAreaInset())
+					.padding(.top, context.coordinator.getTopPadding()),
+				bgColor: backgroundColor
 			)
 			sheetController.presentationController?.delegate = context.coordinator
 
@@ -50,7 +60,9 @@ struct DynamicSheetHelper<SheetView: View>: UIViewControllerRepresentable {
 		} else {
 			if context.coordinator.sheetController != nil {
 				context.coordinator.sheetController = nil
-				uiViewController.dismiss(animated: true)
+				uiViewController.dismiss(animated: true) {
+					self.onDismiss?()
+				}
 			}
 		}
 	}
@@ -74,16 +86,17 @@ struct DynamicSheetHelper<SheetView: View>: UIViewControllerRepresentable {
 		}
 
 		func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-			parent.onDismiss?()
 			sheetController = nil
 		}
 
+		/// Дополнительный паддинг снизу для устройств с TouchID, у которых нет снизу safeAreaЮ
 		func getBottomSafeAreaInset() -> CGFloat {
 			UIApplication.shared.bottomSafeAreaInset == 0 ? 24 : 0
 		}
-
+		
+		/// Дополнительный паддинг сверху для устройств с TouchID, у которых нет снизу safeArea
 		func getTopPadding() -> CGFloat {
-			UIApplication.shared.bottomSafeAreaInset == 0 ? 0 : -12
+			UIApplication.shared.bottomSafeAreaInset == 0 ? 12 : 0
 		}
 	}
 }
