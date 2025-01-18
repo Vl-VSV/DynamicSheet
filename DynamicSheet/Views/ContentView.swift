@@ -8,14 +8,21 @@
 import SwiftUI
 
 struct ContentView: View {
+	@State private var firstSheetIsPresented = false
+
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+			Button("First Sheet") {
+				firstSheetIsPresented = true
+			}
         }
         .padding()
+		.dynamicSheet(showSheet: $firstSheetIsPresented) {
+			Text("Hello")
+				.font(.largeTitle)
+		} onDismiss: {
+			print("Did dismiss")
+		}
     }
 }
 
