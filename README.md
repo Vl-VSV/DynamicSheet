@@ -10,6 +10,13 @@
 
 - **iOS 15+**
 
+## Установка
+
+Для интеграции `DynamicSheet` в ваш Xcode проект, сдедуйте шагам:
+
+* In Xcode, navigate to File -> Swift Packages -> Add Package Dependency.
+* Paste the repository's URL.
+
 ## Особенности
 
 - Высота sheet автоматически подстраивается под содержимое.

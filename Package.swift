@@ -12,8 +12,7 @@ let package = Package(
        .library(
             name: "DynamicSheet",
             targets: [
-				"DynamicSheet",
-				"DynamicSheetDetent"
+				"DynamicSheet"
 			]
 	   ),
     ],
