@@ -45,9 +45,7 @@ struct DynamicSheetHelper<SheetView: View>: UIViewControllerRepresentable {
 			let sheetController = DynamicSheetHostingController(
 				rootView: sheetView
 					.environment(\.dismissDynamicSheet, { showSheet = false })
-					.ignoresSafeArea()
-					.padding(.bottom, context.coordinator.getBottomSafeAreaInset())
-					.padding(.top, context.coordinator.getTopPadding()),
+					.ignoresSafeArea(),
 				bgColor: backgroundColor
 			)
 			sheetController.presentationController?.delegate = context.coordinator
@@ -87,31 +85,5 @@ struct DynamicSheetHelper<SheetView: View>: UIViewControllerRepresentable {
 		func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
 			sheetController = nil
 		}
-
-		/// Дополнительный паддинг снизу для устройств с TouchID, у которых нет снизу safeAreaЮ
-		func getBottomSafeAreaInset() -> CGFloat {
-			UIApplication.shared.bottomSafeAreaInset == 0 ? 24 : 0
-		}
-
-		/// Дополнительный паддинг сверху для устройств с TouchID, у которых нет снизу safeArea
-		func getTopPadding() -> CGFloat {
-			UIApplication.shared.bottomSafeAreaInset == 0 ? 12 : 0
-		}
-	}
-}
-
-// MARK: - UIApplication+bottomSafeAreaInset
-
-fileprivate extension UIApplication {
-	var bottomSafeAreaInset: CGFloat {
-		guard let windowScene = connectedScenes.first as? UIWindowScene else {
-			return 0
-		}
-
-		guard let window = windowScene.windows.first else {
-			return 0
-		}
-
-		return window.safeAreaInsets.bottom
 	}
 }

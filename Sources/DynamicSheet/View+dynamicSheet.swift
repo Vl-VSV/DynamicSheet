@@ -11,7 +11,7 @@ import SwiftUI
 
 extension View {
 	public func dynamicSheet<SheetView: View>(
-		showSheet: Binding<Bool>,
+		isPresented: Binding<Bool>,
 		backgroundColor: Color? = nil,
 		@ViewBuilder sheetView: @escaping () -> SheetView,
 		onDismiss: (() -> Void)? = nil
@@ -20,7 +20,7 @@ extension View {
 			.background(
 				DynamicSheetHelper(
 					sheetView: sheetView(),
-					showSheet: showSheet,
+					showSheet: isPresented,
 					backgroundColor: backgroundColor,
 					onDismiss: onDismiss
 				)
